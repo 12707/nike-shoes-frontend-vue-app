@@ -1,0 +1,20 @@
+build-job:
+  stage: build
+  script:
+    - echo "Build project..."
+    - npm install
+    - npm run build
+    - echo "Build complete!"
+
+test-job:
+  stage: test
+  script:
+    - echo "Start test..."
+    - npm run test
+    - echo "testing complete!"
+
+deploy-job:
+  stage: deploy
+  script:
+    - echo "Start deploy..."
+    - echo "deploy complete!"

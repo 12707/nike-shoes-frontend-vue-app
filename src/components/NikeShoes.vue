@@ -12,14 +12,15 @@
       <tbody>
       <tr v-for="eachShoeData in shoeData" :key="eachShoeData.shoeId">
         <td>{{eachShoeData.model}}</td>
-        <td>{{eachShoeData.shoePrice}}</td>
-        <td>{{getShoeState(eachShoeData.shoeId)}}</td>
+        <td data-test="shoePrice">{{eachShoeData.shoePrice}}</td>
+        <td data-test="shoeState">{{getShoeState(eachShoeData.shoeId)}}</td>
       </tr>
       </tbody>
     </table>
   </div>
 </template>
 <script>
+import NikeShoesApi from "./NikeShoesApi";
 const shoeDatabase = [
   {
     shoeId: '1',
@@ -82,15 +83,8 @@ export default {
   },
   created() {
     // Simple POST request with a JSON body using fetch
-    const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" }
-    };
     const fetchData = () => shoeDatabase.map(eachShoeDatabase => {
-      fetch(`api/shoe-price/${eachShoeDatabase.shoeId}`, requestOptions)
-          .then(response => {
-            return response.json()
-          })
+      NikeShoesApi.fetchData(eachShoeDatabase.shoeId)
           .then((res) => {
             let data = res
             if (typeof res === "string") {
@@ -101,7 +95,7 @@ export default {
               shoePrice: data.shoePrice
             }
           });
-    });
+    })
     fetchData();
   }
 }
